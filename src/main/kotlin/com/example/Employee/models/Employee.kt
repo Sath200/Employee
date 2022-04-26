@@ -16,7 +16,7 @@ public class Employee (
     private var aadharNumber: String,
     private var pancard: String,
     @OneToMany(cascade = [CascadeType.REMOVE],mappedBy="employee", fetch = FetchType.LAZY)
-    val options: List<BankAccount> =emptyList()
+    val bankAccounts: List<BankAccount> =emptyList()
 
  ){
     fun getId(): Int {

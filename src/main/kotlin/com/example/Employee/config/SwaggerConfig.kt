@@ -1,7 +1,9 @@
 package com.example.Employee.config
 
+import com.google.common.base.Predicates
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.config.annotation.EnableWebMvc
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
@@ -19,7 +21,10 @@ class SwaggerConfig {
         return Docket(DocumentationType.SWAGGER_2)
             .select()
             .apis(RequestHandlerSelectors.any())
-            .paths(PathSelectors.any())
+            //.apis(RequestHandlerSelectors.basePackage("com.example"))
+            //.paths(PathSelectors.ant("/api/*"))
+            //.paths(PathSelectors.any()
+            .paths(Predicates.not(PathSelectors.regex("/error.*")))
             .build()
     }
 }
