@@ -7,7 +7,7 @@ import javax.persistence.Id
 
 
 @Entity
-public class CompanyNews (
+data class CompanyNews (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

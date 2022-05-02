@@ -3,7 +3,7 @@ import javax.persistence.*
 
 
 @Entity
-public class Employee (
+data class Employee (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private var employeeId: Int,

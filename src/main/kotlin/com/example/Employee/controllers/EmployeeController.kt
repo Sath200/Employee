@@ -1,7 +1,8 @@
 package com.example.Employee.controllers
 
+import com.example.Employee.controllers.request.BankAccountRequest
 import com.example.Employee.models.BankAccount
-import com.example.Employee.models.BankAccountRequest
+//import com.example.Employee.models.BankAccountRequest
 import com.example.Employee.models.Employee
 import com.example.Employee.services.BankAccountService
 import com.example.Employee.services.EmployeeService
@@ -73,14 +74,9 @@ public class EmployeeController (private var employeeService: EmployeeService, p
     }
 
 
-
-
-
-
-
-
-
 }
+
+
 
 
 

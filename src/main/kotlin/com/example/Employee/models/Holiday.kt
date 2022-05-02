@@ -5,7 +5,7 @@ import javax.persistence.*
 
 
 @Entity
-public class Holidays(
+data class Holiday(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private var id: Int,
