@@ -4,9 +4,10 @@ package com.example.Employee.models
 import javax.persistence.*
 
 @Entity
-public class BankAccount(
+data class BankAccount(
     @Id
-    private var id: Int,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Int= 0,
     private var bankName: String,
     private var accountNumber: String,
     private var ifscCode: String,
@@ -16,9 +17,7 @@ public class BankAccount(
 
 
 ) {
-    fun getId(): Int {
-        return id
-    }
+
 
     fun getBankName(): String {
         return bankName
@@ -40,33 +39,16 @@ public class BankAccount(
     }
 
     fun setEmp(employee: Employee){
-        println("hello")
         this.employee=employee
     }
     fun getEmp(employee: Employee): Employee{
         return employee
     }
 
-    /*fun from(request: Bank_accountRequest): Bank_account{
-        var bank_account: Bank_account
-        bank_account.setId(request.getid())
-        return bank_account
-
-    }
-    */
-}
-@Entity
-public class BankAccountRequest (
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-     var id:Int,
-     var bankName: String,
-     var accountNumber: String,
-    var ifscCode: String
-){
-
 
 }
+
+
 
 
 
