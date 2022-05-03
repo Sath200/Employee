@@ -15,7 +15,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/holidays")
-public class HolidaysController (private var holidaysService: HolidaysService){
+public class HolidaysController (private val holidaysService: HolidaysService){
 
     @PostMapping
     fun createHoliday(@RequestBody holiday: Holiday):ResponseEntity<Holiday> {
@@ -24,13 +24,13 @@ public class HolidaysController (private var holidaysService: HolidaysService){
     }
 
     @GetMapping
-    fun getHolidays(): MutableIterable<Holiday> {
-        return holidaysService.getHolidays()
+    fun getHolidays(): ResponseEntity<List<Holiday>> {
+        return ResponseEntity.ok(holidaysService.getHolidays())
     }
 
     @GetMapping("/{id}")
-    fun getHoliday(@PathVariable id: Int): Optional<Holiday> {
-        return holidaysService.getHoliday(id)
+    fun getHoliday(@PathVariable id: Int): ResponseEntity<Holiday> {
+        return ResponseEntity.ok(holidaysService.getHoliday(id))
     }
 
     @PutMapping("/{id}")

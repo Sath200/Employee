@@ -6,21 +6,21 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-public class HolidaysService (private var holidaysRepository: HolidaysRepository){
+public class HolidaysService (private val holidaysRepository: HolidaysRepository){
     fun createHoliday(holiday: Holiday){
         holidaysRepository.save(holiday)
     }
 
-    fun getHolidays( ): MutableIterable<Holiday> {
-        return holidaysRepository.findAll()
+    fun getHolidays( ): List<Holiday> {
+        return holidaysRepository.findAll().toList()
     }
 
-    fun getHoliday(id: Int): Optional<Holiday> {
-        return holidaysRepository.findById(id)
+    fun getHoliday(id: Int): Holiday {
+        return holidaysRepository.findById(id).get()
     }
 
     fun updateHoliday(id: Int, holiday: Holiday){
-        holiday.setId(id)
+        holiday.id=id
         holidaysRepository.save(holiday)
     }
 

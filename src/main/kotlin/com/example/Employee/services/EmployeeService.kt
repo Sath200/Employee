@@ -13,12 +13,12 @@ public class EmployeeService (private val employeeRepository: EmployeeRepository
         employeeRepository.save(employee)
     }
 
-    fun get(): MutableIterable<Employee>? {
-        return employeeRepository.findAll()
+    fun get(): List<Employee> {
+        return employeeRepository.findAll().toList()
     }
 
-    fun getEmployee(employeeId: Int): Optional<Employee> {
-         return employeeRepository.findById(employeeId)
+    fun getEmployee(employeeId: Int): Employee {
+        return employeeRepository.findById(employeeId).get()
     }
 
     fun deleteEmployee(employeeId: Int){
@@ -26,7 +26,7 @@ public class EmployeeService (private val employeeRepository: EmployeeRepository
     }
 
     fun updateEmployee(employeeId: Int, employee: Employee) {
-        employee.setId(employeeId)
+        employee.employeeId=employeeId
         employeeRepository.save(employee)
     }
 
