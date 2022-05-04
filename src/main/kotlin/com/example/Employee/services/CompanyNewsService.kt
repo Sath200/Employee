@@ -18,25 +18,25 @@ public class CompanyNewsService(private val companyNewsRepository: CompanyNewsRe
     }
 
     fun getNewsById(id: Int): CompanyNews {
-        return companyNewsRepository.findById(id).orElseThrow{throw EntityNotFoundException("news with given Id does not exist") }
+        return companyNewsRepository.findById(id)
+            .orElseThrow{throw EntityNotFoundException("news with given Id does not exist") }
     }
 
     fun updateNews(id: Int, news: CompanyNews){
         val companyNews=companyNewsRepository.findById(id)
-        if(companyNews.isPresent) {
-            news.id = id
-            companyNewsRepository.save(news)
-        } else{
+        if(companyNews.isEmpty){
             throw EntityNotFoundException("news with given Id does not exist")
         }
+        news.id = id
+        companyNewsRepository.save(news)
+
     }
 
     fun deleteNews(id: Int){
         val companyNews=companyNewsRepository.findById(id)
-        if(companyNews.isPresent) {
-            companyNewsRepository.deleteById(id)
-        } else{
+        if(companyNews.isEmpty){
             throw EntityNotFoundException("news with given Id does not exist")
         }
+        companyNewsRepository.deleteById(id)
     }
 }
