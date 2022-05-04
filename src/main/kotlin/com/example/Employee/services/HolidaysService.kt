@@ -1,5 +1,6 @@
 package com.example.Employee.services
 
+import com.example.Employee.exceptions.EntityNotFoundException
 import com.example.Employee.models.Holiday
 import com.example.Employee.repositories.HolidaysRepository
 import org.springframework.stereotype.Service
@@ -16,15 +17,25 @@ public class HolidaysService (private val holidaysRepository: HolidaysRepository
     }
 
     fun getHoliday(id: Int): Holiday {
-        return holidaysRepository.findById(id).get()
+        return holidaysRepository.findById(id).orElseThrow { throw EntityNotFoundException("holiday with given id does not exist") }
     }
 
     fun updateHoliday(id: Int, holiday: Holiday){
-        holiday.id=id
-        holidaysRepository.save(holiday)
+        val holidayExists=holidaysRepository.findById(id)
+        if(holidayExists.isPresent){
+            holiday.id=id
+            holidaysRepository.save(holiday)
+        } else{
+            throw EntityNotFoundException("holiday with given id does not exist")
+        }
     }
 
     fun deleteHoliday(id: Int){
-        holidaysRepository.deleteById(id)
+        val holidayExists=holidaysRepository.findById(id)
+        if(holidayExists.isPresent) {
+            holidaysRepository.deleteById(id)
+        } else{
+            throw EntityNotFoundException("holiday with given id does not exist")
+        }
     }
 }

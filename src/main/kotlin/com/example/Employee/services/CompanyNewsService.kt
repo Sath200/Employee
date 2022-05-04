@@ -1,5 +1,6 @@
 package com.example.Employee.services
 
+import com.example.Employee.exceptions.EntityNotFoundException
 import com.example.Employee.models.CompanyNews
 import com.example.Employee.repositories.CompanyNewsRepository
 import org.springframework.stereotype.Service
@@ -17,15 +18,25 @@ public class CompanyNewsService(private val companyNewsRepository: CompanyNewsRe
     }
 
     fun getNewsById(id: Int): CompanyNews {
-        return companyNewsRepository.findById(id).get()
+        return companyNewsRepository.findById(id).orElseThrow{throw EntityNotFoundException("news with given Id does not exist") }
     }
 
     fun updateNews(id: Int, news: CompanyNews){
-        news.id=id
-        companyNewsRepository.save(news)
+        val companyNews=companyNewsRepository.findById(id)
+        if(companyNews.isPresent) {
+            news.id = id
+            companyNewsRepository.save(news)
+        } else{
+            throw EntityNotFoundException("news with given Id does not exist")
+        }
     }
 
     fun deleteNews(id: Int){
-        companyNewsRepository.deleteById(id)
+        val companyNews=companyNewsRepository.findById(id)
+        if(companyNews.isPresent) {
+            companyNewsRepository.deleteById(id)
+        } else{
+            throw EntityNotFoundException("news with given Id does not exist")
+        }
     }
 }
