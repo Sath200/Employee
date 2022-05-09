@@ -73,6 +73,11 @@ public class EmployeeController (private val employeeService: EmployeeService, p
         return ResponseEntity.ok(bankAccountrequest)
     }
 
+    @DeleteMapping("/{employeeId}/bank_accounts/{id}")
+    fun deleteAccount(@PathVariable employeeId: Int, @PathVariable id: Int){
+        bankAccountservice.deleteAccount(employeeId,id)
+    }
+
 
 }
 

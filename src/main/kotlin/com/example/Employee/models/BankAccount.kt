@@ -12,7 +12,7 @@ data class BankAccount(
     val bankName: String,
     val accountNumber: String,
     var ifscCode: String,
-    @ManyToOne(cascade=[CascadeType.ALL],optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name="empId", referencedColumnName = "employeeId")
     @JsonIgnore
     val employee: Employee

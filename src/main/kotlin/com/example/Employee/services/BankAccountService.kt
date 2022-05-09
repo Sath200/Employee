@@ -72,6 +72,17 @@ public class BankAccountService(private val employeeRepository: EmployeeReposito
         )
     }
 
+    public fun deleteAccount(employeeId: Int,id: Int){
+        if(!employeeRepository.existsById(employeeId)){
+            throw EntityNotFoundException("employee not found")
+        }
+        if(!bankAccountRepository.existsById(id)){
+            throw EntityNotFoundException("bank account not found")
+        }
+        bankAccountRepository.deleteById(id)
+
+    }
+
 }
 
 
