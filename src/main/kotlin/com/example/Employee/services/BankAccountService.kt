@@ -46,7 +46,7 @@ public class BankAccountService(private val employeeRepository: EmployeeReposito
         if(employee.isEmpty){
             throw EntityNotFoundException("employee not found")
         }
-        return bankAccountRepository.findById(id)
+        return bankAccountRepository.findByEmployeeEmployeeIdAndId(employeeId,id)
             .orElseThrow { EntityNotFoundException("bank account not found") }
 
     }
@@ -54,7 +54,7 @@ public class BankAccountService(private val employeeRepository: EmployeeReposito
     public fun updateAccount(employeeId: Int,id: Int, account: BankAccountRequest){
         account.id=id
         val employee = employeeRepository.findById(employeeId)
-        val bankAccount=bankAccountRepository.findById(id)
+        val bankAccount=bankAccountRepository.findByEmployeeEmployeeIdAndId(employeeId, id)
         if(employee.isEmpty){
             throw EntityNotFoundException("employee not found")
         }
@@ -76,7 +76,7 @@ public class BankAccountService(private val employeeRepository: EmployeeReposito
         if(!employeeRepository.existsById(employeeId)){
             throw EntityNotFoundException("employee not found")
         }
-        if(!bankAccountRepository.existsById(id)){
+        if(!bankAccountRepository.existsByEmployeeEmployeeIdAndId(employeeId, id)){
             throw EntityNotFoundException("bank account not found")
         }
         bankAccountRepository.deleteById(id)

@@ -12,6 +12,7 @@ public interface BankAccountRepository: CrudRepository<BankAccount, Int> {
 
         fun findAllByEmployeeEmployeeId(employeeId: Int):List<BankAccount>
         fun findByEmployeeEmployeeIdAndId(employeeId: Int, id: Int):Optional<BankAccount>
+        fun existsByEmployeeEmployeeIdAndId(employeeId: Int,id: Int): Boolean
 
 }
 
