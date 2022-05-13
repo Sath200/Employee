@@ -16,7 +16,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/companyNews")
-public class CompanyNewsController (private var companyNewsService: CompanyNewsService){
+public class CompanyNewsController (private val companyNewsService: CompanyNewsService){
 
     @PostMapping
     fun addNews(@RequestBody companyNews: CompanyNews): ResponseEntity<CompanyNews>{
@@ -26,13 +26,13 @@ public class CompanyNewsController (private var companyNewsService: CompanyNewsS
     }
 
     @GetMapping
-    fun getNews(): MutableIterable<CompanyNews> {
-         return companyNewsService.getNews()
+    fun getNews(): ResponseEntity<List<CompanyNews>> {
+         return ResponseEntity.ok(companyNewsService.getNews())
     }
 
     @GetMapping("/{id}")
-    fun getNewsById(@PathVariable id: Int): Optional<CompanyNews> {
-        return companyNewsService.getNewsById(id)
+    fun getNewsById(@PathVariable id: Int): ResponseEntity<CompanyNews> {
+        return ResponseEntity.ok(companyNewsService.getNewsById(id))
     }
 
     @PutMapping("/{id}")

@@ -7,23 +7,12 @@ import javax.persistence.Id
 
 
 @Entity
-public class CompanyNews (
+data class CompanyNews (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private var id: Int,
-    private var news: String
+    var id: Int,
+    val news: String
 ){
-    fun getId():Int{
-        return this.id
-    }
-    fun getNews(): String{
-        return this.news
-    }
-    fun setid(id:Int){
-        this.id=id
-    }
-    fun setNews(news: String){
-        this.news=news
-    }
+
 }

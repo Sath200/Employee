@@ -1,30 +1,41 @@
 package com.example.Employee.services
 
-import com.example.Employee.models.Holidays
+import com.example.Employee.exceptions.EntityNotFoundException
+import com.example.Employee.models.Holiday
 import com.example.Employee.repositories.HolidaysRepository
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
-public class HolidaysService (private var holidaysRepository: HolidaysRepository){
-    fun createHoliday(holiday: Holidays){
+public class HolidaysService (private val holidaysRepository: HolidaysRepository){
+    fun createHoliday(holiday: Holiday){
         holidaysRepository.save(holiday)
     }
 
-    fun getHolidays( ): MutableIterable<Holidays> {
-        return holidaysRepository.findAll()
+    fun getHolidays( ): List<Holiday> {
+        return holidaysRepository.findAll().toList()
     }
 
-    fun getHoliday(id: Int): Optional<Holidays> {
+    fun getHoliday(id: Int): Holiday {
         return holidaysRepository.findById(id)
+            .orElseThrow { throw EntityNotFoundException("holiday with given id does not exist") }
     }
 
-    fun updateHoliday(id: Int, holiday: Holidays){
-        holiday.setId(id)
+    fun updateHoliday(id: Int, holiday: Holiday){
+        val existingHoliday=holidaysRepository.findById(id)
+        if(existingHoliday.isEmpty){
+            throw EntityNotFoundException("holiday with given id does not exist")
+        }
+        holiday.id=id
         holidaysRepository.save(holiday)
+
     }
 
     fun deleteHoliday(id: Int){
+        val existingHoliday=holidaysRepository.findById(id)
+        if(existingHoliday.isEmpty){
+            throw EntityNotFoundException("holiday with given id does not exist")
+        }
         holidaysRepository.deleteById(id)
+
     }
 }

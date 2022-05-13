@@ -1,7 +1,8 @@
 package com.example.Employee.controllers
 
+import com.example.Employee.controllers.request.BankAccountRequest
 import com.example.Employee.models.BankAccount
-import com.example.Employee.models.BankAccountRequest
+//import com.example.Employee.models.BankAccountRequest
 import com.example.Employee.models.Employee
 import com.example.Employee.services.BankAccountService
 import com.example.Employee.services.EmployeeService
@@ -18,7 +19,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/employees")
-public class EmployeeController (private var employeeService: EmployeeService, private var bankAccountservice: BankAccountService){
+public class EmployeeController (private val employeeService: EmployeeService){
 
 
     @PostMapping
@@ -29,13 +30,13 @@ public class EmployeeController (private var employeeService: EmployeeService, p
     }
 
     @GetMapping
-    fun get(): MutableIterable<Employee>? {
-        return employeeService.get()
+    fun get(): ResponseEntity<List<Employee>> {
+        return ResponseEntity.ok(employeeService.get())
     }
 
     @GetMapping("/{employeeId}")
-    fun getEmployee(@PathVariable employeeId: Int): Optional<Employee> {
-        return employeeService.getEmployee(employeeId)
+    fun getEmployee(@PathVariable employeeId: Int): ResponseEntity<Employee>  {
+        return ResponseEntity.ok(employeeService.getEmployee(employeeId))
     }
 
     @DeleteMapping("/{employeeId}")
@@ -49,38 +50,9 @@ public class EmployeeController (private var employeeService: EmployeeService, p
         return ResponseEntity.ok((employee))
     }
 
-   @PostMapping("/{employeeId}/bank_accounts")
-    fun addAccount(@PathVariable employeeId: Int, @RequestBody bankAccountrequest: BankAccountRequest): ResponseEntity<BankAccountRequest>{
-       bankAccountservice.addAccount(employeeId,bankAccountrequest)
-       return ResponseEntity.ok(bankAccountrequest)
-    }
-
-  @GetMapping("/{employeeId}/bank_accounts")
-   fun getAccounts(@PathVariable employeeId: Int): List<BankAccount> {
-       return bankAccountservice.getAccounts(employeeId)
-   }
-
-
-    @GetMapping("/{employeeId}/bank_accounts/{id}")
-    fun getAccount(@PathVariable employeeId: Int, @PathVariable id: Int): Optional<BankAccount> {
-        return bankAccountservice.getAccount(employeeId,id)
-    }
-
-    @PutMapping("/{employeeId}/bank_accounts/{id}")
-    fun updateAccount(@PathVariable employeeId: Int, @PathVariable id: Int, @RequestBody bankAccountrequest: BankAccountRequest): ResponseEntity<BankAccountRequest>{
-        bankAccountservice.updateAccount(employeeId,id,bankAccountrequest)
-        return ResponseEntity.ok(bankAccountrequest)
-    }
-
-
-
-
-
-
-
-
-
 }
+
+
 
 
 

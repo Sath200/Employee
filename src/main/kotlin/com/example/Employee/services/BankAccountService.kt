@@ -2,71 +2,90 @@ package com.example.Employee.services
 
 
 
+import com.example.Employee.controllers.request.BankAccountRequest
+import com.example.Employee.exceptions.EntityNotFoundException
 import com.example.Employee.models.BankAccount
-import com.example.Employee.models.BankAccountRequest
+//import com.example.Employee.models.BankAccountRequest
 import com.example.Employee.repositories.BankAccountRepository
-import com.example.Employee.repositories.BankAccountRequestRepository
+//import com.example.Employee.repositories.BankAccountRequestRepository
 import com.example.Employee.repositories.EmployeeRepository
 import org.springframework.stereotype.Service
 import java.util.*
-import javax.persistence.EntityNotFoundException
+
 
 @Service
 public class BankAccountService(private val employeeRepository: EmployeeRepository,
-                                private val bankAccountRepository: BankAccountRepository,
-                                private val bankAccountRequestRepository: BankAccountRequestRepository) {
-
+                                private val bankAccountRepository: BankAccountRepository){
     public fun addAccount(employeeId: Int, account: BankAccountRequest) {
-        var x = employeeRepository.findById(employeeId)
-        bankAccountRequestRepository.save(account)
-        if (x.isPresent) {
-            var a = x.get()
-            bankAccountRepository.save(
-                BankAccount(
-                    id = account.id,
-                    bankName = account.bankName,
-                    accountNumber = account.accountNumber,
-                    ifscCode = account.ifscCode,
-                    employee = a
-                )
-            )
-
-        } else {
-            throw EntityNotFoundException("emp not found")
+        val employee = employeeRepository.findById(employeeId)
+        if(employee.isEmpty){
+            throw EntityNotFoundException("employee not found")
         }
-        //bankAccountrepository.save(Bank_account(id = account.id, bank_name = account.bank_name, account_number = account.account_number, IFSC_Code = account.IFSC_Code, employee = ))
+        bankAccountRepository.save(
+            BankAccount(
+                id = account.id,
+                bankName = account.bankName,
+                accountNumber = account.accountNumber,
+                ifscCode = account.ifscCode,
+                employee = employee.get()
+            )
+        )
+
     }
     public fun getAccounts(employeeId: Int): List<BankAccount>{
-        return bankAccountRepository.findAllByEmployeeEmployeeId(employeeId)
+        val employee = employeeRepository.findById(employeeId)
+        if(employee.isEmpty){
+            throw EntityNotFoundException("employee not found")
+        }
+        return bankAccountRepository.findAllByEmployeeEmployeeId(employeeId).toList()
+
     }
 
-    public fun getAccount(employeeId: Int,id: Int): Optional<BankAccount> {
+    public fun getAccount(employeeId: Int,id: Int): BankAccount {
+        val employee = employeeRepository.findById(employeeId)
+        if(employee.isEmpty){
+            throw EntityNotFoundException("employee not found")
+        }
         return bankAccountRepository.findByEmployeeEmployeeIdAndId(employeeId,id)
+            .orElseThrow { EntityNotFoundException("bank account not found") }
+
     }
 
     public fun updateAccount(employeeId: Int,id: Int, account: BankAccountRequest){
         account.id=id
-        var x = employeeRepository.findById(employeeId)
-        bankAccountRequestRepository.save(account)
-        if (x.isPresent) {
-            println("exists")
-            var a = x.get()
-            bankAccountRepository.save(
-                BankAccount(
-                    id = account.id,
-                    bankName = account.bankName,
-                    accountNumber = account.accountNumber,
-                    ifscCode = account.ifscCode,
-                    employee = a
-                )
-            )
-
-        } else {
-            throw EntityNotFoundException("emp not found")
+        val employee = employeeRepository.findById(employeeId)
+        val bankAccount=bankAccountRepository.findByEmployeeEmployeeIdAndId(employeeId, id)
+        if(employee.isEmpty){
+            throw EntityNotFoundException("employee not found")
         }
+        if(bankAccount.isEmpty){
+            throw EntityNotFoundException("bank account not found")
+        }
+        bankAccountRepository.save(
+            BankAccount(
+                id = account.id,
+                bankName = account.bankName,
+                accountNumber = account.accountNumber,
+                ifscCode = account.ifscCode,
+                employee = employee.get()
+            )
+        )
+    }
+
+    public fun deleteAccount(employeeId: Int,id: Int){
+        if(!employeeRepository.existsById(employeeId)){
+            throw EntityNotFoundException("employee not found")
+        }
+        if(!bankAccountRepository.existsByEmployeeEmployeeIdAndId(employeeId, id)){
+            throw EntityNotFoundException("bank account not found")
+        }
+        bankAccountRepository.deleteById(id)
+
     }
 
 }
+
+
 
 
 

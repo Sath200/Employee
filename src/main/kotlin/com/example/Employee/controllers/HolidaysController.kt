@@ -1,6 +1,6 @@
 package com.example.Employee.controllers
 
-import com.example.Employee.models.Holidays
+import com.example.Employee.models.Holiday
 import com.example.Employee.services.HolidaysService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -10,32 +10,31 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
 @RestController
 @RequestMapping("/holidays")
-public class HolidaysController (private var holidaysService: HolidaysService){
+public class HolidaysController (private val holidaysService: HolidaysService){
 
     @PostMapping
-    fun createHoliday(@RequestBody holiday: Holidays):ResponseEntity<Holidays> {
+    fun createHoliday(@RequestBody holiday: Holiday):ResponseEntity<Holiday> {
         holidaysService.createHoliday(holiday)
         return ResponseEntity.ok(holiday)
     }
 
     @GetMapping
-    fun getHolidays(): MutableIterable<Holidays> {
-        return holidaysService.getHolidays()
+    fun getHolidays(): ResponseEntity<List<Holiday>> {
+        return ResponseEntity.ok(holidaysService.getHolidays())
     }
 
     @GetMapping("/{id}")
-    fun getHoliday(@PathVariable id: Int): Optional<Holidays> {
-        return holidaysService.getHoliday(id)
+    fun getHoliday(@PathVariable id: Int): ResponseEntity<Holiday> {
+        return ResponseEntity.ok(holidaysService.getHoliday(id))
     }
 
     @PutMapping("/{id}")
-    fun updateHoliday(@PathVariable id: Int, @RequestBody holiday: Holidays): ResponseEntity<Holidays> {
+    fun updateHoliday(@PathVariable id: Int, @RequestBody holiday: Holiday): ResponseEntity<Holiday> {
         holidaysService.updateHoliday(id, holiday)
         return ResponseEntity.ok(holiday)
 
