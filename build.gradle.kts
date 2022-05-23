@@ -33,6 +33,7 @@ dependencies {
 	testImplementation("io.mockk:mockk:1.12.3")
 	testImplementation("org.amshove.kluent:kluent:1.64")
 	testImplementation("org.mockito:mockito-inline:3.3.3")
+	runtimeOnly("com.h2database:h2")
 
 
 }
