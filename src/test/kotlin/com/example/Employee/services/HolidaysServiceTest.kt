@@ -48,7 +48,7 @@ internal class HolidaysServiceTest{
     }
 
     @Test
-    fun `should throw 404 while trying to get non existent holiday`(){
+    fun `should give an error message while trying to get non existent holiday`(){
         every { holidaysRepository.findById(fakeHoliday.id) }returns Optional.empty()
 
         invoking { holidaysService.getHoliday(fakeHoliday.id) }shouldThrow EntityNotFoundException("holiday with given id does not exist")
@@ -65,7 +65,7 @@ internal class HolidaysServiceTest{
     }
 
     @Test
-    fun `should throw 404 while trying to update non existent holiday`(){
+    fun `should give an error message while trying to update non existent holiday`(){
         every { holidaysRepository.findById(fakeHoliday.id) }returns Optional.empty()
 
         invoking { holidaysService.updateHoliday(fakeHoliday.id, fakeHoliday.copy(holiday ="75th Independence Day" )) }shouldThrow EntityNotFoundException("holiday with given id does not exist")
@@ -82,7 +82,7 @@ internal class HolidaysServiceTest{
     }
 
     @Test
-    fun `should throw 404 while trying to delete a non existent holiday`(){
+    fun `should give an error message while trying to delete a non existent holiday`(){
         every { holidaysRepository.findById(fakeHoliday.id) } returns Optional.empty()
 
         invoking { holidaysService.deleteHoliday(fakeHoliday.id) } shouldThrow EntityNotFoundException("holiday with given id does not exist")
