@@ -8,7 +8,6 @@ import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.amshove.kluent.`should be equal to`
 import org.springframework.http.HttpStatus
-import kotlin.test.assertEquals
 
 internal class EmployeeControllerTest{
     private val employeeService=mockk<EmployeeService>()
@@ -16,13 +15,12 @@ internal class EmployeeControllerTest{
 
     @Test
     fun `should create employee`() {
-        every { employeeService.addDetails(fakeEmployee) }returns Unit
+        every { employeeService.addDetails(fakeEmployee) }returns fakeEmployee
 
         val createdEmployee=employeeController.addEmployee(fakeEmployee)
 
         createdEmployee.body `should be equal to` fakeEmployee
-        createdEmployee.statusCode `should be equal to` HttpStatus.OK
-        verify { employeeService.addDetails(fakeEmployee) }
+        createdEmployee.statusCode `should be equal to` HttpStatus.CREATED
     }
 
     @Test
@@ -47,13 +45,12 @@ internal class EmployeeControllerTest{
 
     @Test
     fun `should update the employee`(){
-        every {employeeService.updateEmployee(1, fakeEmployee.copy(name="Sathwika"))} returns Unit
+        every {employeeService.updateEmployee(1, fakeEmployee.copy(name="Sathwika"))} returns fakeEmployee
 
         val updatedEmployee=employeeController.updateEmployee(1, fakeEmployee.copy(name="Sathwika"))
 
-        updatedEmployee.body `should be equal to` fakeEmployee.copy(name="Sathwika")
-        updatedEmployee.statusCode `should be equal to` HttpStatus.OK
-        verify { employeeService.updateEmployee(fakeEmployee.employeeId, fakeEmployee.copy(name = "Sathwika")) }
+        updatedEmployee.statusCode `should be equal to` HttpStatus.NO_CONTENT
+        verify { employeeService.updateEmployee(1, fakeEmployee.copy(name="Sathwika")) }
     }
 
     @Test

@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test
 import org.amshove.kluent.`should be equal to`
 import org.springframework.http.HttpStatus
 import java.util.*
-import kotlin.math.hypot
 
 internal class HolidaysControllerTest {
      private val holidaysService=mockk<HolidaysService>()
@@ -17,13 +16,12 @@ internal class HolidaysControllerTest {
 
      @Test
      fun `should create new holiday`(){
-         every { holidaysService.createHoliday(fakeHoliday) }returns Unit
+         every { holidaysService.createHoliday(fakeHoliday) }returns fakeHoliday
 
          val createdHoliday = holidaysController.createHoliday(fakeHoliday)
 
          createdHoliday.body `should be equal to` fakeHoliday
-         createdHoliday.statusCode `should be equal to` HttpStatus.OK
-         verify { holidaysService.createHoliday(fakeHoliday) }
+         createdHoliday.statusCode `should be equal to` HttpStatus.CREATED
      }
 
     @Test
@@ -48,12 +46,11 @@ internal class HolidaysControllerTest {
 
     @Test
     fun `should update holiday`(){
-        every { holidaysService.updateHoliday(1, fakeHoliday.copy(holiday = "75th Independence Day")) }returns Unit
+        every { holidaysService.updateHoliday(1, fakeHoliday.copy(holiday = "75th Independence Day")) }returns fakeHoliday
 
         val updatedHoliday=holidaysController.updateHoliday(1, fakeHoliday.copy(holiday = "75th Independence Day"))
 
-        updatedHoliday.body `should be equal to` fakeHoliday.copy(holiday = "75th Independence Day")
-        updatedHoliday.statusCode `should be equal to` HttpStatus.OK
+        updatedHoliday.statusCode `should be equal to` HttpStatus.NO_CONTENT
         verify { holidaysService.updateHoliday(1, fakeHoliday.copy(holiday = "75th Independence Day")) }
     }
 

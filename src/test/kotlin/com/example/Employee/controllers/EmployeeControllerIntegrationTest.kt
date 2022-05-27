@@ -34,17 +34,16 @@ internal class EmployeeControllerIntegrationTest {
 
     @Test
     fun `should create employee`(){
-        every { employeeService.addDetails(fakeEmployee) }returns Unit
+        every { employeeService.addDetails(fakeEmployee) }returns fakeEmployee
 
         mockMvc.perform(
             MockMvcRequestBuilders
                 .post("/employees")
                 .content(objectMapper.writeValueAsBytes(fakeEmployee))
                 .contentType(MediaType.APPLICATION_JSON)
-        )  .andExpect(MockMvcResultMatchers.status().isOk)
+        )  .andExpect(MockMvcResultMatchers.status().isCreated)
             .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(fakeEmployee)))
 
-        verify { employeeService.addDetails(fakeEmployee) }
     }
 
 
@@ -102,7 +101,7 @@ internal class EmployeeControllerIntegrationTest {
         mockMvc.perform(
             MockMvcRequestBuilders
                 .delete("/employees/${fakeEmployee.employeeId}")
-        )
+        ).andExpect(MockMvcResultMatchers.status().isNoContent)
 
         verify { employeeService.deleteEmployee(fakeEmployee.employeeId) }
     }
@@ -120,16 +119,14 @@ internal class EmployeeControllerIntegrationTest {
 
     @Test
     fun `should update an employee`(){
-        every { employeeService.updateEmployee(fakeEmployee.employeeId, fakeEmployee) }returns Unit
+        every { employeeService.updateEmployee(fakeEmployee.employeeId, fakeEmployee) }returns fakeEmployee
 
         mockMvc.perform(
             MockMvcRequestBuilders
                 .put("/employees/${fakeEmployee.employeeId}")
                 .content(objectMapper.writeValueAsBytes(fakeEmployee))
                 .contentType(MediaType.APPLICATION_JSON)
-        )  .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(fakeEmployee)))
-
+        )  .andExpect(MockMvcResultMatchers.status().isNoContent)
         verify { employeeService.updateEmployee(fakeEmployee.employeeId, fakeEmployee) }
     }
 

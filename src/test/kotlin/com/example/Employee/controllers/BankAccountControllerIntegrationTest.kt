@@ -35,17 +35,15 @@ internal class BankAccountControllerIntegrationTest {
 
     @Test
     fun `should add bank account of an employee`(){
-        every { bankAccountService.addAccount(fakeEmployee.employeeId, fakeBankAccountRequest) }returns Unit
+        every { bankAccountService.addAccount(fakeEmployee.employeeId, fakeBankAccountRequest) }returns fakeBankAccount
 
         mockMvc.perform(
             MockMvcRequestBuilders
                 .post("/employees/${fakeEmployee.employeeId}/bank_accounts")
                 .content(objectMapper.writeValueAsBytes(fakeBankAccountRequest))
                 .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(fakeBankAccountRequest)))
-
-        verify { bankAccountService.addAccount(fakeEmployee.employeeId, fakeBankAccountRequest) }
+        ).andExpect(MockMvcResultMatchers.status().isCreated)
+            .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(fakeBankAccount)))
     }
 
     @Test
@@ -118,15 +116,14 @@ internal class BankAccountControllerIntegrationTest {
 
     @Test
     fun `should update a bank account of employee`(){
-        every { bankAccountService.updateAccount(fakeEmployee.employeeId, fakeBankAccount.id, fakeBankAccountRequest.copy(bankName = "HDFC")) } returns Unit
+        every { bankAccountService.updateAccount(fakeEmployee.employeeId, fakeBankAccount.id, fakeBankAccountRequest.copy(bankName = "HDFC")) } returns fakeBankAccount
 
         mockMvc.perform(
             MockMvcRequestBuilders
                 .put("/employees/${fakeEmployee.employeeId}/bank_accounts/${fakeBankAccount.id}")
                 .content(objectMapper.writeValueAsBytes(fakeBankAccountRequest.copy(bankName = "HDFC")))
                 .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(fakeBankAccountRequest.copy(bankName = "HDFC"))))
+        ).andExpect(MockMvcResultMatchers.status().isNoContent)
 
         verify { bankAccountService.updateAccount(fakeEmployee.employeeId, fakeBankAccount.id, fakeBankAccountRequest.copy(bankName = "HDFC")) }
     }
@@ -165,7 +162,7 @@ internal class BankAccountControllerIntegrationTest {
             MockMvcRequestBuilders
                 .delete("/employees/${fakeEmployee.employeeId}/bank_accounts/${fakeBankAccount.id}")
                 .content(objectMapper.writeValueAsBytes(fakeBankAccountRequest))
-        ).andExpect(MockMvcResultMatchers.status().isOk)
+        ).andExpect(MockMvcResultMatchers.status().isNoContent)
 
         verify { bankAccountService.deleteAccount(fakeEmployee.employeeId, fakeBankAccount.id) }
     }

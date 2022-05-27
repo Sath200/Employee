@@ -15,13 +15,12 @@ internal class CompanyNewsControllerTest{
 
     @Test
     fun `should add news`(){
-        every { companyNewsService.addNews(fakeCompanyNews) }returns Unit
+        every { companyNewsService.addNews(fakeCompanyNews) }returns fakeCompanyNews
 
         val news=companyNewsController.addNews(fakeCompanyNews)
 
         news.body `should be equal to` fakeCompanyNews
-        news.statusCode `should be equal to` HttpStatus.OK
-        verify { companyNewsService.addNews(fakeCompanyNews) }
+        news.statusCode `should be equal to` HttpStatus.CREATED
     }
 
     @Test
@@ -46,12 +45,11 @@ internal class CompanyNewsControllerTest{
 
     @Test
     fun `should update news`(){
-        every { companyNewsService.updateNews(1, fakeCompanyNews.copy(news = "welcome interns")) }returns Unit
+        every { companyNewsService.updateNews(1, fakeCompanyNews.copy(news = "welcome interns")) }returns fakeCompanyNews
 
         val updatedNews=companyNewsController.updateNews(1, fakeCompanyNews.copy(news = "welcome interns"))
 
-        updatedNews.body `should be equal to` fakeCompanyNews.copy(news = "welcome interns")
-        updatedNews.statusCode `should be equal to` HttpStatus.OK
+        updatedNews.statusCode `should be equal to` HttpStatus.NO_CONTENT
         verify { companyNewsService.updateNews(1, fakeCompanyNews.copy(news = "welcome interns")) }
     }
 

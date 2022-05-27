@@ -2,7 +2,6 @@ package com.example.Employee.controllers
 
 import com.example.Employee.exceptions.EntityNotFoundException
 import com.example.Employee.models.Holiday
-import com.example.Employee.services.EmployeeService
 import com.example.Employee.services.HolidaysService
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.ninjasquad.springmockk.MockkBean
@@ -36,17 +35,15 @@ internal class HolidaysControllerIntegrationTest {
 
     @Test
     fun `should add new holiday`(){
-        every { holidaysService.createHoliday(fakeHoliday) }returns Unit
+        every { holidaysService.createHoliday(fakeHoliday) }returns fakeHoliday
 
         mockMvc.perform(
             MockMvcRequestBuilders
                 .post("/holidays")
                 .content(objectMapper.writeValueAsBytes(fakeHoliday))
                 .contentType(MediaType.APPLICATION_JSON)
-        )  .andExpect(MockMvcResultMatchers.status().isOk)
+        )  .andExpect(MockMvcResultMatchers.status().isCreated)
             .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(fakeHoliday)))
-
-        verify { holidaysService.createHoliday(fakeHoliday) }
     }
 
     @Test
@@ -80,21 +77,21 @@ internal class HolidaysControllerIntegrationTest {
             MockMvcRequestBuilders
                 .get("/holidays/${fakeHoliday.id}")
         ).andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(fakeHoliday)))
     }
 
     @Test
     fun `should update holiday`(){
-        every { holidaysService.updateHoliday(fakeHoliday.id, fakeHoliday.copy(holiday = "75th Independence Day")) }returns Unit
+        every { holidaysService.updateHoliday(fakeHoliday.id, fakeHoliday.copy(holiday = "75th Independence Day")) }returns fakeHoliday
 
         mockMvc.perform(
             MockMvcRequestBuilders
                 .put("/holidays/${fakeHoliday.id}")
                 .content(objectMapper.writeValueAsBytes(fakeHoliday.copy(holiday = "75th Independence Day")))
                 .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(fakeHoliday.copy(holiday = "75th Independence Day"))))
+        ).andExpect(MockMvcResultMatchers.status().isNoContent)
 
-        verify { holidaysService.updateHoliday(fakeHoliday.id, fakeHoliday.copy(holiday = "75th Independence Day")) }
+        verify { holidaysService.updateHoliday(fakeHoliday.id, fakeHoliday.copy(holiday="75th Independence Day")) }
     }
 
     @Test
@@ -118,7 +115,7 @@ internal class HolidaysControllerIntegrationTest {
         mockMvc.perform(
             MockMvcRequestBuilders
                 .delete("/holidays/${fakeHoliday.id}")
-        ).andExpect(MockMvcResultMatchers.status().isOk)
+        ).andExpect(MockMvcResultMatchers.status().isNoContent)
 
         verify { holidaysService.deleteHoliday(fakeHoliday.id) }
     }
