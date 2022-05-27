@@ -17,13 +17,12 @@ internal class BankAccountControllerTest {
 
     @Test
     fun `should add bank details of employee`(){
-        every { bankAccountService.addAccount(1, fakeBankAccountRequest) }returns Unit
+        every { bankAccountService.addAccount(1, fakeBankAccountRequest) }returns fakeBankAccount
 
         val addedAccount=bankAccountController.addAccount(1, fakeBankAccountRequest)
 
-        addedAccount.body `should be equal to` fakeBankAccountRequest
-        addedAccount.statusCode `should be equal to` HttpStatus.OK
-        verify { bankAccountService.addAccount(1, fakeBankAccountRequest) }
+        addedAccount.body `should be equal to` fakeBankAccount
+        addedAccount.statusCode `should be equal to` HttpStatus.CREATED
     }
 
     @Test
@@ -48,12 +47,11 @@ internal class BankAccountControllerTest {
 
     @Test
     fun `should update a bank account`(){
-        every { bankAccountService.updateAccount(1,1, fakeBankAccountRequest.copy(bankName = "HDFC")) }returns Unit
+        every { bankAccountService.updateAccount(1,1, fakeBankAccountRequest.copy(bankName = "HDFC")) }returns fakeBankAccount.copy(bankName = "HDFC")
 
         val updatedAccount = bankAccountController.updateAccount(1,1, fakeBankAccountRequest.copy(bankName = "HDFC"))
 
-        updatedAccount.body `should be equal to` fakeBankAccountRequest.copy(bankName = "HDFC")
-        updatedAccount.statusCode `should be equal to` HttpStatus.OK
+        updatedAccount.statusCode `should be equal to` HttpStatus.NO_CONTENT
         verify { bankAccountService.updateAccount(1,1, fakeBankAccountRequest.copy(bankName = "HDFC")) }
     }
 
