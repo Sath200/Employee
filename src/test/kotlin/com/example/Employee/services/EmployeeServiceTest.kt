@@ -29,7 +29,7 @@ internal class EmployeeServiceTest {
     }
 
     @Test
-    fun `should give an error message while trying to create employee when age is less than 18`(){
+    fun `should throw exception while trying to create employee when age is less than 18`(){
         //val employeeToCreate = Employee(employeeId = 0, name= "Vikram",age=16,address="Hyd",designation="Intern",department="LPD", location = "Bangalore", aadharNumber = "5678678678", pancard = "KYP678")
         val employeeToCreate = fakeEmployee.copy(age=16)
         invoking { employeeService.addDetails(employeeToCreate) } shouldThrow InvalidRequestException("Age should be above 18")
@@ -58,7 +58,7 @@ internal class EmployeeServiceTest {
     }
 
     @Test
-    fun `should give an error message while trying to find non existent employee` (){
+    fun `should throw exception while trying to find non existent employee` (){
         every { employeeRepository.findById(fakeEmployee.employeeId) } returns Optional.empty()
 
         invoking { employeeService.getEmployee(fakeEmployee.employeeId) } shouldThrow EntityNotFoundException("employee not found")
@@ -75,7 +75,7 @@ internal class EmployeeServiceTest {
     }
 
     @Test
-    fun `should give an error message while trying to delete non existent employee` (){
+    fun `should throw exception while trying to delete non existent employee` (){
         every { employeeRepository.findById(fakeEmployee.employeeId) } returns Optional.empty()
 
         invoking { employeeService.deleteEmployee(fakeEmployee.employeeId)} shouldThrow EntityNotFoundException("employee not found")
@@ -93,7 +93,7 @@ internal class EmployeeServiceTest {
     }
 
     @Test
-    fun `should give an error message while trying to update non existent employee`(){
+    fun `should throw exception while trying to update non existent employee`(){
         every { employeeRepository.findById(1) } returns Optional.empty()
 
         invoking {employeeService.updateEmployee(1, fakeEmployee.copy(location="Hyd"))} shouldThrow  EntityNotFoundException("employee not found")

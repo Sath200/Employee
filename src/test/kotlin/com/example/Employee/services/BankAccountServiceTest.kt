@@ -32,7 +32,7 @@ internal class BankAccountServiceTest {
     }
 
     @Test
-    fun `should give an error message while trying to create bankAccount for non existent employee`(){
+    fun `should throw exception while trying to create bankAccount for non existent employee`(){
         every { employeeRepository.findById(fakeEmployee.employeeId) }returns Optional.empty()
 
         invoking {bankAccountService.addAccount(fakeEmployee.employeeId, fakeBankAccountRequest)} shouldThrow EntityNotFoundException("employee not found")
@@ -51,7 +51,7 @@ internal class BankAccountServiceTest {
     }
 
     @Test
-    fun `should give an error message while trying to get bank accounts of non existent employee`(){
+    fun `should throw exception while trying to get bank accounts of non existent employee`(){
         every { employeeRepository.findById(fakeEmployee.employeeId) } returns Optional.empty()
 
         invoking { bankAccountService.getAccounts(fakeEmployee.employeeId) } shouldThrow EntityNotFoundException("employee not found")
@@ -70,14 +70,14 @@ internal class BankAccountServiceTest {
     }
 
     @Test
-    fun `should give an error message while trying to get bank account of non existent employee`(){
+    fun `should throw exception while trying to get bank account of non existent employee`(){
         every {employeeRepository.findById(fakeEmployee.employeeId)} returns Optional.empty()
 
         invoking { bankAccountService.getAccount(fakeEmployee.employeeId, fakeBankAccount.id) } shouldThrow EntityNotFoundException("employee not found")
     }
 
     @Test
-    fun `should give an error message while trying to get non existent bank account of an employee`(){
+    fun `should throw exception while trying to get non existent bank account of an employee`(){
         every { employeeRepository.findById(fakeEmployee.employeeId) } returns Optional.of(fakeEmployee.copy(employeeId = 1))
         every {bankAccountRepository.findByEmployeeEmployeeIdAndId(fakeEmployee.employeeId, fakeBankAccount.id)} returns Optional.empty()
 
@@ -97,7 +97,7 @@ internal class BankAccountServiceTest {
     }
 
     @Test
-    fun `should give an error message while trying to update bank account of non existent employee`(){
+    fun `should throw exception while trying to update bank account of non existent employee`(){
         every {employeeRepository.findById(fakeEmployee.employeeId)} returns Optional.empty()
         every { bankAccountRepository.findByEmployeeEmployeeIdAndId(fakeEmployee.employeeId, fakeBankAccount.id) } returns Optional.of(
             fakeBankAccount)
@@ -105,7 +105,7 @@ internal class BankAccountServiceTest {
     }
 
     @Test
-    fun `should give an error message while trying to update non existent bank account`(){
+    fun `should throw exception while trying to update non existent bank account`(){
         every {employeeRepository.findById(fakeEmployee.employeeId)} returns Optional.of(fakeEmployee)
         every { bankAccountRepository.findByEmployeeEmployeeIdAndId(fakeEmployee.employeeId, fakeBankAccount.id) } returns Optional.empty()
 
@@ -125,7 +125,7 @@ internal class BankAccountServiceTest {
     }
 
     @Test
-    fun `should give an error message while trying to delete bank account for non existent employee`(){
+    fun `should throw exception while trying to delete bank account for non existent employee`(){
         every {employeeRepository.existsById(fakeEmployee.employeeId)} returns false
         //every { bankAccountRepository.existsByEmployeeEmployeeIdAndId(fakeEmployee.employeeId, fakeBankAccount.id) }returns true
 
@@ -133,7 +133,7 @@ internal class BankAccountServiceTest {
     }
 
     @Test
-    fun `should give an error message while trying to delete a non existent bank account`(){
+    fun `should throw exception while trying to delete a non existent bank account`(){
         every {employeeRepository.existsById(fakeEmployee.employeeId)} returns true
         every { bankAccountRepository.existsByEmployeeEmployeeIdAndId(fakeEmployee.employeeId, fakeBankAccount.id) }returns false
 

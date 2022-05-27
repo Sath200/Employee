@@ -47,7 +47,7 @@ internal class CompanyNewsServiceTest {
     }
 
     @Test
-    fun `should give an error message while trying to access non existent news`(){
+    fun `should throw exception while trying to access non existent news`(){
         every { companyNewsRepository.findById(1) }returns Optional.empty()
 
         invoking { companyNewsService.getNewsById(1) }shouldThrow EntityNotFoundException("news with given Id does not exist")
@@ -64,7 +64,7 @@ internal class CompanyNewsServiceTest {
     }
 
     @Test
-    fun `should give an error message while trying to delete non existent news`(){
+    fun `should throw exception while trying to delete non existent news`(){
         every {companyNewsRepository.findById(fakeCompanyNews.id)} returns Optional.empty()
 
         invoking {companyNewsService.deleteNews(fakeCompanyNews.id) } shouldThrow EntityNotFoundException("news with given Id does not exist")
@@ -81,7 +81,7 @@ internal class CompanyNewsServiceTest {
     }
 
     @Test
-    fun `should give an error message while trying to update non existent news`(){
+    fun `should throw exception while trying to update non existent news`(){
         every { companyNewsRepository.findById(fakeCompanyNews.id) }returns Optional.empty()
 
         invoking { companyNewsService.updateNews(fakeCompanyNews.id, fakeCompanyNews) } shouldThrow EntityNotFoundException("news with given Id does not exist")
