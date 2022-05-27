@@ -23,6 +23,7 @@ internal class HolidaysControllerTest {
 
          createdHoliday.body `should be equal to` fakeHoliday
          createdHoliday.statusCode `should be equal to` HttpStatus.OK
+         verify { holidaysService.createHoliday(fakeHoliday) }
      }
 
     @Test
@@ -33,6 +34,7 @@ internal class HolidaysControllerTest {
 
         holidays.body `should be equal to` listOf(fakeHoliday)
         holidays.statusCode `should be equal to` HttpStatus.OK
+        verify { holidaysService.getHolidays() }
     }
 
     @Test
@@ -43,6 +45,7 @@ internal class HolidaysControllerTest {
 
         holiday.body `should be equal to` fakeHoliday
         holiday.statusCode `should be equal to`  HttpStatus.OK
+        verify { holidaysService.getHoliday(1) }
     }
 
     @Test
@@ -53,6 +56,7 @@ internal class HolidaysControllerTest {
 
         updatedHoliday.body `should be equal to` fakeHoliday.copy(holiday = "75th Independence Day")
         updatedHoliday.statusCode `should be equal to` HttpStatus.OK
+        verify { holidaysService.updateHoliday(1, fakeHoliday.copy(holiday = "75th Independence Day")) }
     }
 
     @Test

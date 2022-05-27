@@ -21,6 +21,7 @@ internal class CompanyNewsControllerTest{
 
         news.body `should be equal to` fakeCompanyNews
         news.statusCode `should be equal to` HttpStatus.OK
+        verify { companyNewsService.addNews(fakeCompanyNews) }
     }
 
     @Test
@@ -31,6 +32,7 @@ internal class CompanyNewsControllerTest{
 
         fetchedNews.body `should be equal to` listOf(fakeCompanyNews)
         fetchedNews.statusCode `should be equal to` HttpStatus.OK
+        verify { companyNewsService.getNews() }
     }
 
     @Test
@@ -41,6 +43,7 @@ internal class CompanyNewsControllerTest{
 
         fetchedNews.body `should be equal to` fakeCompanyNews
         fetchedNews.statusCode `should be equal to` HttpStatus.OK
+        verify { companyNewsService.getNewsById(1) }
     }
 
     @Test
@@ -51,6 +54,7 @@ internal class CompanyNewsControllerTest{
 
         updatedNews.body `should be equal to` fakeCompanyNews.copy(news = "welcome interns")
         updatedNews.statusCode `should be equal to` HttpStatus.OK
+        verify { companyNewsService.updateNews(1, fakeCompanyNews.copy(news = "welcome interns")) }
     }
 
     @Test

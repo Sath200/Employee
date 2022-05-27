@@ -24,6 +24,7 @@ internal class BankAccountControllerTest {
 
         addedAccount.body `should be equal to` fakeBankAccountRequest
         addedAccount.statusCode `should be equal to` HttpStatus.OK
+        verify { bankAccountService.addAccount(1, fakeBankAccountRequest) }
     }
 
     @Test
@@ -34,6 +35,7 @@ internal class BankAccountControllerTest {
 
         accountsFetched.body `should be equal to` listOf(fakeBankAccount)
         accountsFetched.statusCode `should be equal to` HttpStatus.OK
+        verify { bankAccountService.getAccounts(fakeEmployee.employeeId) }
     }
 
     @Test
@@ -44,6 +46,7 @@ internal class BankAccountControllerTest {
 
         accountFetched.body `should be equal to` fakeBankAccount
         accountFetched.statusCode `should be equal to` HttpStatus.OK
+        verify { bankAccountService.getAccount(1,1) }
     }
 
     @Test
@@ -54,6 +57,7 @@ internal class BankAccountControllerTest {
 
         updatedAccount.body `should be equal to` fakeBankAccountRequest.copy(bankName = "HDFC")
         updatedAccount.statusCode `should be equal to` HttpStatus.OK
+        verify { bankAccountService.updateAccount(1,1, fakeBankAccountRequest.copy(bankName = "HDFC")) }
     }
 
     @Test
@@ -64,9 +68,6 @@ internal class BankAccountControllerTest {
 
         verify { bankAccountService.deleteAccount(1,1) }
     }
-
-
-
 }
 private val fakeEmployee= Employee(employeeId=1,name= "Vikram",age=25,address="Hyd",designation="Intern",department="LPD", location = "Bangalore", aadharNumber = "5678678678", pancard = "KYP678")
 private val fakeBankAccountRequest= BankAccountRequest(id=1,bankName = "ICICI", accountNumber = "2345678", ifscCode = "ICICI2345")
