@@ -36,6 +36,7 @@ internal class HolidaysServiceTest{
         val fetchedHolidays=holidaysService.getHolidays()
 
         fetchedHolidays `should be equal to` listOf(fakeHoliday)
+        verify { holidaysRepository.findAll() }
     }
 
     @Test
@@ -45,6 +46,7 @@ internal class HolidaysServiceTest{
         val  fetchedHoliday=holidaysService.getHoliday(fakeHoliday.id)
 
         fetchedHoliday `should be equal to` fakeHoliday
+        verify { holidaysRepository.findById(fakeHoliday.id) }
     }
 
     @Test

@@ -33,6 +33,7 @@ internal class CompanyNewsServiceTest {
         val fetchedNews = companyNewsService.getNews()
 
         fetchedNews `should be equal to` listOf(fakeCompanyNews)
+        verify { companyNewsRepository.findAll() }
     }
 
     @Test
@@ -42,6 +43,7 @@ internal class CompanyNewsServiceTest {
         val fetchedNews=companyNewsService.getNewsById(1)
 
         fetchedNews `should be equal to` fakeCompanyNews.copy(id=1)
+        verify { companyNewsRepository.findById(1) }
     }
 
     @Test
