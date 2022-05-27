@@ -10,7 +10,6 @@ import org.amshove.kluent.`should be equal to`
 import org.amshove.kluent.invoking
 import org.amshove.kluent.shouldThrow
 import org.junit.jupiter.api.Test
-import java.time.LocalDate
 import java.util.*
 
 
@@ -24,9 +23,9 @@ internal class HolidaysServiceTest{
     fun `should add holiday`(){
         every { holidaysRepository.save(fakeHoliday) } returns fakeHoliday
 
-        holidaysService.createHoliday(fakeHoliday)
+        val createdHoliday=holidaysService.createHoliday(fakeHoliday)
 
-        verify { holidaysRepository.save(fakeHoliday) }
+        createdHoliday `should be equal to` fakeHoliday
     }
 
     @Test
@@ -60,9 +59,9 @@ internal class HolidaysServiceTest{
         every { holidaysRepository.findById(fakeHoliday.id) } returns Optional.of(fakeHoliday)
         every { holidaysRepository.save(fakeHoliday) }returns fakeHoliday.copy(holiday="75th Independence Day")
 
-        holidaysService.updateHoliday(fakeHoliday.id, fakeHoliday)
+        val updatedHoliday=holidaysService.updateHoliday(fakeHoliday.id, fakeHoliday)
 
-        verify { holidaysRepository.save(fakeHoliday) }
+        updatedHoliday `should be equal to` fakeHoliday.copy(holiday = "75th Independence Day")
     }
 
     @Test

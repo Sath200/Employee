@@ -13,7 +13,7 @@ import java.util.*
 import org.amshove.kluent.`should be equal to`
 import org.amshove.kluent.invoking
 import org.amshove.kluent.shouldThrow
-import org.junit.jupiter.api.Assertions.*
+
 
 internal class EmployeeServiceTest {
     private val employeeRepository= mockk<EmployeeRepository>()
@@ -23,9 +23,9 @@ internal class EmployeeServiceTest {
     fun `should create employee`() {
         every {employeeRepository.save(fakeEmployee)} returns fakeEmployee.copy(employeeId=1)
 
-        employeeService.addDetails(fakeEmployee)
+        val createdEmployee=employeeService.addDetails(fakeEmployee)
 
-        verify { employeeRepository.save(fakeEmployee)}
+        createdEmployee `should be equal to` fakeEmployee.copy(employeeId = 1)
     }
 
     @Test
@@ -86,9 +86,9 @@ internal class EmployeeServiceTest {
         every{employeeRepository.findById(1)} returns Optional.of(fakeEmployee.copy(employeeId = 1))
         every{ employeeRepository.save(fakeEmployee.copy(employeeId = 1,location="Hyd"))} returns fakeEmployee.copy(employeeId = 1,location="Hyd")
 
-        employeeService.updateEmployee(1, fakeEmployee.copy(location="Hyd"))
+        val updatedEmployee=employeeService.updateEmployee(1, fakeEmployee.copy(location="Hyd"))
 
-        verify {employeeRepository.save(fakeEmployee.copy(employeeId = 1,location="Hyd"))}
+        updatedEmployee `should be equal to` fakeEmployee.copy(employeeId = 1, location = "Hyd")
 
     }
 

@@ -21,9 +21,9 @@ internal class CompanyNewsServiceTest {
     fun `should create news`(){
         every { companyNewsRepository.save(fakeCompanyNews) } returns fakeCompanyNews
 
-        companyNewsService.addNews(fakeCompanyNews)
+        val createdNews=companyNewsService.addNews(fakeCompanyNews)
 
-        verify { companyNewsRepository.save(fakeCompanyNews) }
+        createdNews `should be equal to` fakeCompanyNews
     }
 
     @Test
@@ -74,9 +74,9 @@ internal class CompanyNewsServiceTest {
         every { companyNewsRepository.findById(fakeCompanyNews.id) }returns Optional.of(fakeCompanyNews)
         every{companyNewsRepository.save(fakeCompanyNews)}returns fakeCompanyNews.copy(news="Welcome Interns")
 
-        companyNewsService.updateNews(fakeCompanyNews.id, fakeCompanyNews)
+        val updatedNews=companyNewsService.updateNews(fakeCompanyNews.id, fakeCompanyNews)
 
-        verify { companyNewsRepository.save(fakeCompanyNews) }
+        updatedNews `should be equal to` fakeCompanyNews.copy(news="Welcome Interns")
     }
 
     @Test
