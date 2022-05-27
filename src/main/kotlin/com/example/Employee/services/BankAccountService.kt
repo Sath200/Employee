@@ -10,18 +10,18 @@ import com.example.Employee.repositories.BankAccountRepository
 //import com.example.Employee.repositories.BankAccountRequestRepository
 import com.example.Employee.repositories.EmployeeRepository
 import org.springframework.stereotype.Service
-import java.util.*
+
 
 
 @Service
-public class BankAccountService(private val employeeRepository: EmployeeRepository,
+class BankAccountService(private val employeeRepository: EmployeeRepository,
                                 private val bankAccountRepository: BankAccountRepository){
-    public fun addAccount(employeeId: Int, account: BankAccountRequest) {
+    fun addAccount(employeeId: Int, account: BankAccountRequest) : BankAccount{
         val employee = employeeRepository.findById(employeeId)
         if(employee.isEmpty){
             throw EntityNotFoundException("employee not found")
         }
-        bankAccountRepository.save(
+        val savedAccount=bankAccountRepository.save(
             BankAccount(
                 id = account.id,
                 bankName = account.bankName,
@@ -30,9 +30,9 @@ public class BankAccountService(private val employeeRepository: EmployeeReposito
                 employee = employee.get()
             )
         )
-
+        return bankAccountRepository.findById(savedAccount.id).get()
     }
-    public fun getAccounts(employeeId: Int): List<BankAccount>{
+    fun getAccounts(employeeId: Int): List<BankAccount>{
         val employee = employeeRepository.findById(employeeId)
         if(employee.isEmpty){
             throw EntityNotFoundException("employee not found")
@@ -41,7 +41,7 @@ public class BankAccountService(private val employeeRepository: EmployeeReposito
 
     }
 
-    public fun getAccount(employeeId: Int,id: Int): BankAccount {
+    fun getAccount(employeeId: Int,id: Int): BankAccount {
         val employee = employeeRepository.findById(employeeId)
         if(employee.isEmpty){
             throw EntityNotFoundException("employee not found")
@@ -51,7 +51,7 @@ public class BankAccountService(private val employeeRepository: EmployeeReposito
 
     }
 
-    public fun updateAccount(employeeId: Int,id: Int, account: BankAccountRequest){
+    fun updateAccount(employeeId: Int,id: Int, account: BankAccountRequest): BankAccount{
         account.id=id
         val employee = employeeRepository.findById(employeeId)
         val bankAccount=bankAccountRepository.findByEmployeeEmployeeIdAndId(employeeId, id)
@@ -61,7 +61,7 @@ public class BankAccountService(private val employeeRepository: EmployeeReposito
         if(bankAccount.isEmpty){
             throw EntityNotFoundException("bank account not found")
         }
-        bankAccountRepository.save(
+        val updatedAccount=bankAccountRepository.save(
             BankAccount(
                 id = account.id,
                 bankName = account.bankName,
@@ -70,9 +70,10 @@ public class BankAccountService(private val employeeRepository: EmployeeReposito
                 employee = employee.get()
             )
         )
+        return bankAccountRepository.findById(updatedAccount.id).get()
     }
 
-    public fun deleteAccount(employeeId: Int,id: Int){
+    fun deleteAccount(employeeId: Int,id: Int){
         if(!employeeRepository.existsById(employeeId)){
             throw EntityNotFoundException("employee not found")
         }

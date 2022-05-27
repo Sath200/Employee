@@ -9,13 +9,12 @@ import org.springframework.stereotype.Service
 
 
 @Service
-public class EmployeeService (private val employeeRepository: EmployeeRepository){
-    fun addDetails(employee: Employee){
+class EmployeeService (private val employeeRepository: EmployeeRepository){
+    fun addDetails(employee: Employee): Employee{
         if(employee.age<=18){
             throw InvalidRequestException("Age should be above 18")
         }
-        employeeRepository.save(employee)
-
+        return employeeRepository.save(employee)
     }
 
     fun get(): List<Employee> {
@@ -35,7 +34,7 @@ public class EmployeeService (private val employeeRepository: EmployeeRepository
         employeeRepository.deleteById(employeeId)
     }
 
-    fun updateEmployee(employeeId: Int, employee: Employee) {
+    fun updateEmployee(employeeId: Int, employee: Employee) :Employee{
         val existingEmployee = employeeRepository.findById(employeeId)
         if(existingEmployee.isEmpty){
             throw EntityNotFoundException("employee not found")
@@ -44,7 +43,7 @@ public class EmployeeService (private val employeeRepository: EmployeeRepository
             throw InvalidRequestException("Age should be above 18")
         }
         employee.employeeId = employeeId
-        employeeRepository.save(employee)
+        return employeeRepository.save(employee)
     }
 
 
