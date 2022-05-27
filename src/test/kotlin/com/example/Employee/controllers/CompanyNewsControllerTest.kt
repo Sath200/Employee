@@ -7,6 +7,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.amshove.kluent.`should be equal to`
+import org.springframework.http.HttpStatus
 
 internal class CompanyNewsControllerTest{
     private val companyNewsService= mockk<CompanyNewsService>()
@@ -19,6 +20,7 @@ internal class CompanyNewsControllerTest{
         val news=companyNewsController.addNews(fakeCompanyNews)
 
         news.body `should be equal to` fakeCompanyNews
+        news.statusCode `should be equal to` HttpStatus.OK
     }
 
     @Test
@@ -28,6 +30,7 @@ internal class CompanyNewsControllerTest{
         val fetchedNews =companyNewsController.getNews()
 
         fetchedNews.body `should be equal to` listOf(fakeCompanyNews)
+        fetchedNews.statusCode `should be equal to` HttpStatus.OK
     }
 
     @Test
@@ -37,6 +40,7 @@ internal class CompanyNewsControllerTest{
         val fetchedNews =companyNewsController.getNewsById(1)
 
         fetchedNews.body `should be equal to` fakeCompanyNews
+        fetchedNews.statusCode `should be equal to` HttpStatus.OK
     }
 
     @Test
@@ -46,6 +50,7 @@ internal class CompanyNewsControllerTest{
         val updatedNews=companyNewsController.updateNews(1, fakeCompanyNews.copy(news = "welcome interns"))
 
         updatedNews.body `should be equal to` fakeCompanyNews.copy(news = "welcome interns")
+        updatedNews.statusCode `should be equal to` HttpStatus.OK
     }
 
     @Test

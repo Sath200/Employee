@@ -7,6 +7,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.amshove.kluent.`should be equal to`
+import org.springframework.http.HttpStatus
 
 internal class EmployeeControllerTest{
     private val employeeService=mockk<EmployeeService>()
@@ -19,6 +20,7 @@ internal class EmployeeControllerTest{
         val createdEmployee=employeeController.addEmployee(fakeEmployee)
 
         createdEmployee.body `should be equal to` fakeEmployee
+        createdEmployee.statusCode `should be equal to` HttpStatus.OK
     }
 
     @Test
@@ -28,6 +30,7 @@ internal class EmployeeControllerTest{
         val employees=employeeController.get()
 
         employees.body `should be equal to` listOf(fakeEmployee)
+        employees.statusCode `should be equal to` HttpStatus.OK
     }
 
     @Test
@@ -35,9 +38,9 @@ internal class EmployeeControllerTest{
         every { employeeService.getEmployee(1) } returns fakeEmployee
 
         val employee=employeeController.getEmployee(fakeEmployee.employeeId)
-        println(employee)
 
         employee.body `should be equal to` fakeEmployee
+        employee.statusCode `should be equal to` HttpStatus.OK
 
     }
 
@@ -48,6 +51,7 @@ internal class EmployeeControllerTest{
         val updatedEmployee=employeeController.updateEmployee(1, fakeEmployee.copy(name="Sathwika"))
 
         updatedEmployee.body `should be equal to` fakeEmployee.copy(name="Sathwika")
+        updatedEmployee.statusCode `should be equal to` HttpStatus.OK
     }
 
     @Test

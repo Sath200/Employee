@@ -7,7 +7,9 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.amshove.kluent.`should be equal to`
+import org.springframework.http.HttpStatus
 import java.util.*
+import kotlin.math.hypot
 
 internal class HolidaysControllerTest {
      private val holidaysService=mockk<HolidaysService>()
@@ -20,6 +22,7 @@ internal class HolidaysControllerTest {
          val createdHoliday = holidaysController.createHoliday(fakeHoliday)
 
          createdHoliday.body `should be equal to` fakeHoliday
+         createdHoliday.statusCode `should be equal to` HttpStatus.OK
      }
 
     @Test
@@ -29,6 +32,7 @@ internal class HolidaysControllerTest {
         val holidays=holidaysController.getHolidays()
 
         holidays.body `should be equal to` listOf(fakeHoliday)
+        holidays.statusCode `should be equal to` HttpStatus.OK
     }
 
     @Test
@@ -38,6 +42,7 @@ internal class HolidaysControllerTest {
         val holiday =holidaysController.getHoliday(1)
 
         holiday.body `should be equal to` fakeHoliday
+        holiday.statusCode `should be equal to`  HttpStatus.OK
     }
 
     @Test
@@ -47,6 +52,7 @@ internal class HolidaysControllerTest {
         val updatedHoliday=holidaysController.updateHoliday(1, fakeHoliday.copy(holiday = "75th Independence Day"))
 
         updatedHoliday.body `should be equal to` fakeHoliday.copy(holiday = "75th Independence Day")
+        updatedHoliday.statusCode `should be equal to` HttpStatus.OK
     }
 
     @Test

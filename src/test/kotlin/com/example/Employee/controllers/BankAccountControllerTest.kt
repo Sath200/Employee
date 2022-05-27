@@ -9,6 +9,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.amshove.kluent.`should be equal to`
+import org.springframework.http.HttpStatus
 
 internal class BankAccountControllerTest {
     private val bankAccountService=mockk<BankAccountService>()
@@ -22,6 +23,7 @@ internal class BankAccountControllerTest {
         println(addedAccount)
 
         addedAccount.body `should be equal to` fakeBankAccountRequest
+        addedAccount.statusCode `should be equal to` HttpStatus.OK
     }
 
     @Test
@@ -31,6 +33,7 @@ internal class BankAccountControllerTest {
         val accountsFetched=bankAccountController.getAccounts(1)
 
         accountsFetched.body `should be equal to` listOf(fakeBankAccount)
+        accountsFetched.statusCode `should be equal to` HttpStatus.OK
     }
 
     @Test
@@ -40,6 +43,7 @@ internal class BankAccountControllerTest {
         val accountFetched= bankAccountController.getAccount(1,1)
 
         accountFetched.body `should be equal to` fakeBankAccount
+        accountFetched.statusCode `should be equal to` HttpStatus.OK
     }
 
     @Test
@@ -49,6 +53,7 @@ internal class BankAccountControllerTest {
         val updatedAccount = bankAccountController.updateAccount(1,1, fakeBankAccountRequest.copy(bankName = "HDFC"))
 
         updatedAccount.body `should be equal to` fakeBankAccountRequest.copy(bankName = "HDFC")
+        updatedAccount.statusCode `should be equal to` HttpStatus.OK
     }
 
     @Test
