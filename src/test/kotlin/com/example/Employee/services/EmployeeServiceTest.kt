@@ -44,7 +44,7 @@ internal class EmployeeServiceTest {
         val fetchedEmployees = employeeService.get()
 
         fetchedEmployees `should be equal to` listOf(fakeEmployee)
-        verify { employeeRepository.findAll() }
+
     }
 
     @Test
@@ -54,7 +54,7 @@ internal class EmployeeServiceTest {
         val fetchedEmployee= employeeService.getEmployee(employeeId = fakeEmployee.employeeId)
 
         fetchedEmployee `should be equal to` fakeEmployee
-        verify { employeeRepository.findById(fakeEmployee.employeeId) }
+
     }
 
     @Test

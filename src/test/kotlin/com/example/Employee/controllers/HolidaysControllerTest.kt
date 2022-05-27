@@ -34,7 +34,6 @@ internal class HolidaysControllerTest {
 
         holidays.body `should be equal to` listOf(fakeHoliday)
         holidays.statusCode `should be equal to` HttpStatus.OK
-        verify { holidaysService.getHolidays() }
     }
 
     @Test
@@ -45,7 +44,6 @@ internal class HolidaysControllerTest {
 
         holiday.body `should be equal to` fakeHoliday
         holiday.statusCode `should be equal to`  HttpStatus.OK
-        verify { holidaysService.getHoliday(1) }
     }
 
     @Test

@@ -32,7 +32,6 @@ internal class CompanyNewsControllerTest{
 
         fetchedNews.body `should be equal to` listOf(fakeCompanyNews)
         fetchedNews.statusCode `should be equal to` HttpStatus.OK
-        verify { companyNewsService.getNews() }
     }
 
     @Test
@@ -43,7 +42,6 @@ internal class CompanyNewsControllerTest{
 
         fetchedNews.body `should be equal to` fakeCompanyNews
         fetchedNews.statusCode `should be equal to` HttpStatus.OK
-        verify { companyNewsService.getNewsById(1) }
     }
 
     @Test

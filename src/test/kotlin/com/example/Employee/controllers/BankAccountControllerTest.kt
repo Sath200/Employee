@@ -20,7 +20,6 @@ internal class BankAccountControllerTest {
         every { bankAccountService.addAccount(1, fakeBankAccountRequest) }returns Unit
 
         val addedAccount=bankAccountController.addAccount(1, fakeBankAccountRequest)
-        println(addedAccount)
 
         addedAccount.body `should be equal to` fakeBankAccountRequest
         addedAccount.statusCode `should be equal to` HttpStatus.OK
@@ -35,7 +34,6 @@ internal class BankAccountControllerTest {
 
         accountsFetched.body `should be equal to` listOf(fakeBankAccount)
         accountsFetched.statusCode `should be equal to` HttpStatus.OK
-        verify { bankAccountService.getAccounts(fakeEmployee.employeeId) }
     }
 
     @Test
@@ -46,7 +44,6 @@ internal class BankAccountControllerTest {
 
         accountFetched.body `should be equal to` fakeBankAccount
         accountFetched.statusCode `should be equal to` HttpStatus.OK
-        verify { bankAccountService.getAccount(1,1) }
     }
 
     @Test

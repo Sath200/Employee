@@ -33,7 +33,6 @@ internal class EmployeeControllerTest{
 
         employees.body `should be equal to` listOf(fakeEmployee)
         employees.statusCode `should be equal to` HttpStatus.OK
-        verify { employeeService.get() }
     }
 
     @Test
@@ -44,8 +43,6 @@ internal class EmployeeControllerTest{
 
         employee.body `should be equal to` fakeEmployee
         employee.statusCode `should be equal to` HttpStatus.OK
-        verify { employeeService.getEmployee(fakeEmployee.employeeId) }
-
     }
 
     @Test

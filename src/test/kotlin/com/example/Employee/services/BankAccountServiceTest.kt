@@ -47,7 +47,7 @@ internal class BankAccountServiceTest {
         val fetchedBankAccounts= bankAccountService.getAccounts(fakeEmployee.employeeId)
 
         fetchedBankAccounts `should be equal to` listOf(fakeBankAccount)
-        verify { bankAccountRepository.findAllByEmployeeEmployeeId(fakeEmployee.employeeId) }
+
     }
 
     @Test
@@ -66,7 +66,7 @@ internal class BankAccountServiceTest {
         val fetchedBankAccount = bankAccountService.getAccount(1, fakeBankAccount.id)
 
         fetchedBankAccount `should be equal to` fakeBankAccount
-        verify { bankAccountRepository.findByEmployeeEmployeeIdAndId(1, fakeBankAccount.id) }
+
     }
 
     @Test
