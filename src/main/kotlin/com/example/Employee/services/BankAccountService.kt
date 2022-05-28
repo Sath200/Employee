@@ -16,12 +16,12 @@ import org.springframework.stereotype.Service
 @Service
 class BankAccountService(private val employeeRepository: EmployeeRepository,
                                 private val bankAccountRepository: BankAccountRepository){
-    fun addAccount(employeeId: Int, account: BankAccountRequest) : BankAccount{
+    fun addAccount(employeeId: Int, account: BankAccountRequest): BankAccount {
         val employee = employeeRepository.findById(employeeId)
-        if(employee.isEmpty){
+        if (employee.isEmpty) {
             throw EntityNotFoundException("employee not found")
         }
-        val savedAccount=bankAccountRepository.save(
+        return bankAccountRepository.save(
             BankAccount(
                 id = account.id,
                 bankName = account.bankName,
@@ -30,7 +30,6 @@ class BankAccountService(private val employeeRepository: EmployeeRepository,
                 employee = employee.get()
             )
         )
-        return bankAccountRepository.findById(savedAccount.id).get()
     }
     fun getAccounts(employeeId: Int): List<BankAccount>{
         val employee = employeeRepository.findById(employeeId)
@@ -61,7 +60,7 @@ class BankAccountService(private val employeeRepository: EmployeeRepository,
         if(bankAccount.isEmpty){
             throw EntityNotFoundException("bank account not found")
         }
-        val updatedAccount=bankAccountRepository.save(
+        return bankAccountRepository.save(
             BankAccount(
                 id = account.id,
                 bankName = account.bankName,
@@ -70,7 +69,6 @@ class BankAccountService(private val employeeRepository: EmployeeRepository,
                 employee = employee.get()
             )
         )
-        return bankAccountRepository.findById(updatedAccount.id).get()
     }
 
     fun deleteAccount(employeeId: Int,id: Int){

@@ -25,7 +25,6 @@ internal class BankAccountServiceTest {
     fun `should create bank account for employee`(){
         every { employeeRepository.findById(fakeEmployee.employeeId) } returns Optional.of(fakeEmployee)
         every { bankAccountRepository.save(fakeBankAccount) } returns fakeBankAccount
-        every { bankAccountRepository.findById(fakeBankAccount.id) }returns Optional.of(fakeBankAccount)
 
         val accountCreated=bankAccountService.addAccount(fakeEmployee.employeeId, fakeBankAccountRequest)
 
@@ -91,7 +90,6 @@ internal class BankAccountServiceTest {
         every { bankAccountRepository.findByEmployeeEmployeeIdAndId(fakeEmployee.employeeId, fakeBankAccount.id) }returns Optional.of(
             fakeBankAccount)
         every { bankAccountRepository.save(fakeBankAccount.copy(bankName = "HDFC")) }returns fakeBankAccount.copy(bankName = "HDFC")
-        every { bankAccountRepository.findById(fakeBankAccount.id) }returns Optional.of(fakeBankAccount.copy(bankName = "HDFC"))
 
         val updatedAccount=bankAccountService.updateAccount(fakeEmployee.employeeId, fakeBankAccount.id, fakeBankAccountRequest.copy(bankName = "HDFC"))
 
