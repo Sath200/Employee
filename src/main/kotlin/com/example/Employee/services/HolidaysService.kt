@@ -6,9 +6,9 @@ import com.example.Employee.repositories.HolidaysRepository
 import org.springframework.stereotype.Service
 
 @Service
-public class HolidaysService (private val holidaysRepository: HolidaysRepository){
-    fun createHoliday(holiday: Holiday){
-        holidaysRepository.save(holiday)
+class HolidaysService (private val holidaysRepository: HolidaysRepository){
+    fun createHoliday(holiday: Holiday): Holiday {
+        return holidaysRepository.save(holiday)
     }
 
     fun getHolidays( ): List<Holiday> {
@@ -20,13 +20,13 @@ public class HolidaysService (private val holidaysRepository: HolidaysRepository
             .orElseThrow { throw EntityNotFoundException("holiday with given id does not exist") }
     }
 
-    fun updateHoliday(id: Int, holiday: Holiday){
+    fun updateHoliday(id: Int, holiday: Holiday): Holiday {
         val existingHoliday=holidaysRepository.findById(id)
         if(existingHoliday.isEmpty){
             throw EntityNotFoundException("holiday with given id does not exist")
         }
         holiday.id=id
-        holidaysRepository.save(holiday)
+        return holidaysRepository.save(holiday)
 
     }
 

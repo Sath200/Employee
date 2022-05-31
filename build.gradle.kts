@@ -25,9 +25,17 @@ dependencies {
 	runtimeOnly("mysql:mysql-connector-java")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 
+	//annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
 
 	implementation ("io.springfox:springfox-swagger2:2.9.2")
 	implementation ("io.springfox:springfox-swagger-ui:2.9.2")
+	testImplementation("com.ninja-squad:springmockk:3.1.1")
+	testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+	testImplementation("io.mockk:mockk:1.12.4")
+	testImplementation("org.amshove.kluent:kluent:1.64")
+	testImplementation("org.mockito:mockito-inline:3.3.3")
+	testRuntimeOnly("com.h2database:h2")
 
 
 }

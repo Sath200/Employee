@@ -2,6 +2,7 @@ package com.example.Employee.controllers
 
 import com.example.Employee.models.CompanyNews
 import com.example.Employee.services.CompanyNewsService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,9 +21,7 @@ public class CompanyNewsController (private val companyNewsService: CompanyNewsS
 
     @PostMapping
     fun addNews(@RequestBody companyNews: CompanyNews): ResponseEntity<CompanyNews>{
-
-        companyNewsService.addNews(companyNews)
-        return ResponseEntity.ok(companyNews)
+        return ResponseEntity.status(HttpStatus.CREATED).body(companyNewsService.addNews(companyNews))
     }
 
     @GetMapping
@@ -39,12 +38,13 @@ public class CompanyNewsController (private val companyNewsService: CompanyNewsS
     fun updateNews(@PathVariable id: Int, @RequestBody companyNews: CompanyNews): ResponseEntity<CompanyNews>
     {
         companyNewsService.updateNews(id,companyNews)
-        return ResponseEntity.ok(companyNews)
+        return ResponseEntity.noContent().build()
     }
 
     @DeleteMapping("/{id}")
-    fun deleteNews(@PathVariable id: Int){
+    fun deleteNews(@PathVariable id: Int): ResponseEntity<CompanyNews>{
         companyNewsService.deleteNews(id)
+        return ResponseEntity.noContent().build()
     }
 
 
