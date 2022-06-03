@@ -9,10 +9,11 @@ It has the following resources:
 - Holidays
 
 ## How to run the project in IDE:
-1. Open the project in IntelliJ
-2. Open EmployeeApplication.kt
-3. Run the file using play button beside main function
-4. Go to the URL: http://localhost:8078/swagger-ui.html#  (This link will open the documentation of the API)
+1. Create a schema named 'employee' in your MySQL workbench
+2. Open the project in IntelliJ
+3. Open EmployeeApplication.kt
+4. Run the file using play button beside main function
+5. Go to the URL: http://localhost:8078/swagger-ui.html#  (This link will open the documentation of the API)
 
 ## Endpoints:
 ### To create/get/delete/update an employee:
